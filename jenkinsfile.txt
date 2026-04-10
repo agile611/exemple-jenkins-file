@@ -1,0 +1,10 @@
+pipeline {
+    agent any  // Executa a qualsevol agent disponible dins la infra de Jenkins
+    stages {
+        stage('Salutacions') {
+            steps {
+                echo 'Hola sóc el jenkins.txt'
+            }
+        }
+    }
+}
