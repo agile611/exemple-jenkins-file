@@ -1,0 +1,58 @@
+pipeline {
+    agent any //Execució en qualsevol agent
+
+    // 1. Paràmetres que l'usuari omple abans d'executar
+    parameters {
+        choice(
+            name: 'ENTORN',
+            choices: ['dev', 'qa', 'staging', 'pre-prod', 'acceptance', 'prod'],
+            description: 'Selecciona l\'entorn de desplegament'
+        )
+        string(
+            name: 'VERSIO_APP',
+            defaultValue: '1.0.0',
+            description: 'Versió de l\'aplicació a desplegar'
+        )
+        booleanParam(
+            name: 'EXECUTAR_PROVES',
+            defaultValue: true,
+            description: 'Vols executar les proves abans de desplegar?'
+        )
+    }
+
+    // 2. Variables globals disponibles a tot el Pipeline
+    environment {
+        NOM_APP     = 'la-meva-app'
+        EQUIP       = 'backend-team'
+        URL_DEPLOY  = "https://${params.ENTORN}.generalitat.cat"  // Dinàmic!
+    }
+
+    stages {
+
+        stage('Informació') {
+            steps {
+                echo "🚀 Desplegant ${env.NOM_APP} v${params.VERSIO_APP}"
+                echo "🌍 Entorn seleccionat: ${params.ENTORN}"
+                echo "🔗 URL de desplegament: ${env.URL_DEPLOY}"
+                echo "👥 Equip responsable: ${env.EQUIP}"
+            }
+        }
+
+        stage('Proves') {
+            // Aquesta etapa només s'executa si l'usuari ho ha activat
+            when {
+                expression { return params.EXECUTAR_PROVES }
+            }
+            steps {
+                echo "🧪 Executant proves per a l'entorn ${params.ENTORN}..."
+            }
+        }
+
+        stage('Desplegament') {
+            steps {
+                echo "📦 Desplegant versió ${params.VERSIO_APP} a ${params.ENTORN}..."
+            }
+        }
+
+    }
+}
