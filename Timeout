@@ -13,7 +13,7 @@ pipeline {
             steps {
                 echo '⏳ Iniciant tasca llarga...'
                 // Simulem una tasca que triga 65 segons — farà saltar el timeout
-                sleep 59
+                sleep 50
             }
         }
 
