@@ -11,7 +11,7 @@ pipeline {
 
         stage('Feina Pesada') {
             steps {
-                echo '⏳ Iniciant tasca llarga...'
+                eho '⏳ Iniciant tasca llarga...'
                 // Simulem una tasca que triga 65 segons — farà saltar el timeout
                 sleep 65
             }
