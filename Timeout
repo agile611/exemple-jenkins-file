@@ -11,9 +11,9 @@ pipeline {
 
         stage('Feina Pesada') {
             steps {
-                eho '⏳ Iniciant tasca llarga...'
+                echo '⏳ Iniciant tasca llarga...'
                 // Simulem una tasca que triga 65 segons — farà saltar el timeout
-                sleep 65
+                sleep 59
             }
         }
 
@@ -27,10 +27,10 @@ pipeline {
             echo '✅ Tot ha anat bé!'
         }
         failure {
-            echo '❌ El Pipeline ha fallat o s\'ha esgotat el temps.'
+            echo '❌ El Pipeline ha fallat'
         }
         aborted {
-            echo '🛑 Algú ha cancel·lat el job manualment.'
+            echo '🛑 Algú ha cancel·lat el job.'
         }
     }
 }
