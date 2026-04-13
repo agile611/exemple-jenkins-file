@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+        retry(2)
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds()
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo "🔨 Compilant l'aplicació..."
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "🧪 Executant proves..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "🚀 Desplegant a producció..."
+            }
+        }
+
+    }
+
+    post {
+        always {
+            echo "🧹 Neteja finalitzada."
+        }
+        success {
+            echo "✅ Desplegament completat amb èxit!"
+        }
+        failure {
+            echo "❌ Alguna cosa ha anat malament. Revisa els logs."
+        }
+    }
+}
