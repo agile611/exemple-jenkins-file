@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    options {
+        timeout(time: 1, unit: 'MINUTES')  // Si tarda més d'1 minut, el mata
+        timestamps()                        // Afegeix l'hora a cada línia del log
+        retry(2)                            // Si falla, ho reintenta 2 vegades
+    }
+
+    stages {
+
+        stage('Feina Pesada') {
+            steps {
+                echo '⏳ Iniciant tasca llarga...'
+                // Simulem una tasca que triga 65 segons — farà saltar el timeout
+                sleep 65
+            }
+        }
+
+    }
+
+    post {
+        always {
+            echo '🧹 Això s\'imprimeix passi el que passi (neteja de temporals).'
+        }
+        success {
+            echo '✅ Tot ha anat bé!'
+        }
+        failure {
+            echo '❌ El Pipeline ha fallat o s\'ha esgotat el temps.'
+        }
+        aborted {
+            echo '🛑 Algú ha cancel·lat el job manualment.'
+        }
+    }
+}
